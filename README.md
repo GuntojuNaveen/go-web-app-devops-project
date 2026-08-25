@@ -300,7 +300,8 @@ go-web-app/
 ```bash
 eksctl create cluster --name demo-cluster --region us-east-1
 ```
-
+![img](images/go-web-1.png)
+![img](images/go-web-app-2.png)
 ## Verify the Cluster
 
 ```bash
@@ -342,6 +343,8 @@ spec:
 ```bash
 kubectl apply -f deployment.yaml
 ```
+![img](images/go-web-app-3.png)
+
 ## 2. Create the service.yaml
 ```yaml
 apiVersion: v1
@@ -389,7 +392,6 @@ spec:
 ```bash
 kubectl apply -f ingress.yaml
 ```
----
 
 # 10. Verify the Deployment
 
@@ -399,23 +401,12 @@ kubectl apply -f ingress.yaml
 kubectl get pods
 ```
 
-## Check Deployment
+## Check all resources are created or not
 
 ```bash
-kubectl get deployment
+kubectl get deploy,svc,ingress
 ```
-
-## Check Service
-
-```bash
-kubectl get svc
-```
-
-## Check Ingress
-
-```bash
-kubectl get ingress
-```
+![img](images/go-web-app-5.png)
 
 * The basic application flow is now:
 
@@ -568,7 +559,7 @@ Service
    ↓
 Pod
 ```
-
+![img](images/go-web-app-6.png)
 * After installing the Ingress Controller, verify its Pods:
 
 ```bash
@@ -588,12 +579,7 @@ kubectl get svc -A
 ```bash
 kubectl get ingress
 ```
-
-* Get detailed information:
-
-```bash
-kubectl describe ingress
-```
+![img](images/go-web-app-7.png)
 
 * The Ingress can contain a custom hostname such as:
 
@@ -709,7 +695,7 @@ ipconfig /flushdns
 ```text
 http://go-web-app.local
 ```
-
+![img](images/go-web-app-8.png)
 ## Complete Request Flow
 
 ```text
@@ -743,7 +729,7 @@ Go Application
 ```bash
 helm create go-web-app-chart
 ```
-
+![img](images/go-web-app-9.png)
 * This creates:
 
 ```text
@@ -757,8 +743,7 @@ go-web-app-chart/
 
 ---
 
-# 24. Add the Helm Chart to the Go Web App Project
-
+![img](images/go-web-app-10.png)
 
 # 25. Move Kubernetes Resources into Helm
 
@@ -949,7 +934,9 @@ DOCKER_PASSWORD
 ```text
 DOCKER_PASSWORD = <Docker Hub Access Token>
 ```
+![img](images/go-web-app-11.png)
 
+![img](images/go-web-app-12.png)
 * Never put the token directly inside the GitHub Actions YAML file.
 
 ---
@@ -965,10 +952,13 @@ DOCKER_PASSWORD = <Docker Hub Access Token>
 * Example:
 
 ```text
-GH_TOKEN
+TOKEN
 ```
 
 * Never commit the token into the repository.
+![img](images/go-web-app-13.png)
+
+![img](images/go-web-app-14.png)
 
 ---
 
@@ -979,7 +969,7 @@ GH_TOKEN
 ```bash
 git remote -v
 ```
-
+![img](images/go-web-app-16.png)
 * Make sure the correct GitHub repository is configured.
 
 ---
@@ -1021,6 +1011,8 @@ git status
 ```bash
 git commit -m "feat: implement CI/CD"
 ```
+![img](images/go-web-app-15.png)
+
 
 ---
 
@@ -1039,8 +1031,11 @@ Actions
 ```
 
 * Verify that the workflow has started.
-
+![img](images/go-web-app-17.png)
 ---
+Now u can check the latest image pushed on to the docker hub
+
+![img](images/go-web-app-18.png)
 
 # 38. Install Argo CD
 
@@ -1057,6 +1052,7 @@ kubectl create namespace argocd
 ```bash
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
+![img](images/go-web-app-19.png)
 
 ---
 
@@ -1083,6 +1079,7 @@ kubectl get all -n argocd
 ```bash
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 ```
+![img](images/go-web-app-20.png)
 
 * Check the Service:
 
@@ -1094,6 +1091,29 @@ kubectl get svc argocd-server -n argocd
 
 ---
 
+Now open the domain which argocd given here we need to login to argocd app
+here user is admin and password is  you can get 
+using *kubectl get pods -n argocd*  here edit the pod inside this u will find password and decode the password using base64. and use that password in argocd app.
+
+![img](images/go-web-app-21.png)
+
+### 1. Now create new application
+here give app name,project type as default and sync policy as automatic.
+
+![img](images/go-web-app-22.png)
+
+### 2. Give the source url and set the helm path
+
+![img](images/go-web-app-23.png)
+
+### 3. provide values.yaml 
+
+![img](images/go-web-app-24.png)
+
+### Now see the whole structure in argocd app.
+
+![img](images/go-web-app-25.png)
+***
 # 41. Final GitOps Flow
 
 ```text
