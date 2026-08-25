@@ -68,6 +68,7 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         context: .
+        working-directory: ./go-web-app
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/go-web-app:${{github.run_id}}
