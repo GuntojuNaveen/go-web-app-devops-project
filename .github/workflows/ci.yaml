@@ -31,6 +31,7 @@ jobs:
       run: go build -o go-web-app
 
     - name: Test
+      working-directory: ./go-web-app
       run: go test ./...
   
   code-quality:
